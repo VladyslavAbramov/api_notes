@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
     timestamp = DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['']
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
@@ -64,7 +64,7 @@ class User(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return True
 
-    def has_module_perm(self, app_label):
+    def has_module_perms(self, app_label):
         return True
 
     @property

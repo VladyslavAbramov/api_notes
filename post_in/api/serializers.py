@@ -1,4 +1,5 @@
-from rest_framework.serializers import (IntegerField, CharField, Serializer, ModelSerializer)
+from rest_framework.serializers import (IntegerField, CharField, Serializer, ModelSerializer, HyperlinkedIdentityField,
+                                        SerializerMethodField)
 from notes.models import Note
 
 
@@ -18,8 +19,20 @@ from notes.models import Note
 
 
 class NoteSerializer(ModelSerializer):
+    author = SerializerMethodField(read_only=True)
+
+    def get_author(self, obj):
+        return str(obj.author.id)
+
     class Meta:
         model = Note
         fields = '__all__'
+
+
+class ThinNoteSerializer(ModelSerializer):
+    url = HyperlinkedIdentityField(view_name='notes-detail')
+    class Meta:
+        model = Note
+        fields = ('id', 'title', 'url')
 
 
